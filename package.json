@@ -11,6 +11,12 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "css-loader": "^6.3.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.3.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
