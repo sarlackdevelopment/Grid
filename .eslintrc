@@ -13,9 +13,11 @@
     "plugin:react-hooks/recommended",
     "eslint:recommended"
   ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2018,
-    "sourceType": "module"
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
   },
   "settings": {
     "import/resolver": {
@@ -84,6 +86,7 @@
     ],
     "no-named-as-default-member": 0,
     "no-dynamic-require": 0,
+    "no-unused-vars": "off",
     "camelcase": 0,
     "import/extensions": [
       "error",

@@ -1,0 +1,12 @@
+.cell {
+  border: 1px double bisque;
+  width: 21px;
+  height: 21px;
+  &ColorAqua {
+    background-color: antiquewhite;
+  }
+  &ColorAzure {
+    background-color: azure;
+  }
+}
+
