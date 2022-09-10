@@ -1,10 +1,9 @@
 import React from 'react';
-import './App.scss';
 import Grid from './components/grid';
 
 function App() {
     return (
-        <div className="App">
+        <div>
             <Grid />
         </div>
     );
