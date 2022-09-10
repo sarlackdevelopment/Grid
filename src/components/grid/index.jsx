@@ -1,12 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import cn from 'classnames';
 import {
+    Button,
     Col,
     Container,
     Form,
     Row
 } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import style from './style.module.scss';
+import { setTestNumber } from '../../redux/testSlice';
 
 const Grid = () => {
     const NAME_ROWS_COUNT_FIELD = 'rowsCountInput';
@@ -19,6 +22,8 @@ const Grid = () => {
     const [colsCount, setColsCount] = useState(DEFAULT_COUNT);
     const rows = useMemo(() => [...Array(Number(rowsCount)).keys()], [rowsCount]);
     const cols = useMemo(() => [...Array(Number(colsCount)).keys()], [colsCount]);
+
+    const dispatch = useDispatch();
     const handleChangeCount = (event) => {
         const { value, id } = event.target;
         if (id === NAME_ROWS_COUNT_FIELD) {
@@ -28,8 +33,11 @@ const Grid = () => {
             setColsCount(value);
         }
     };
+    const some = () => {
+        dispatch(setTestNumber(123));
+    };
     return (
-        <Container fluid className='mt-5 mx-2'>
+        <Container className='mt-5 mx-2'>
             <Row>
                 <Col xs={4}>
                     <Form>
@@ -59,6 +67,7 @@ const Grid = () => {
                                 defaultValue={DEFAULT_COUNT}
                             />
                         </Form.Group>
+                        <Button variant="primary" onClick={() => some()}>Go!</Button>
                     </Form>
                 </Col>
                 <Col xs={8}>
