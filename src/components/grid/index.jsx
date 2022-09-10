@@ -1,25 +1,26 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
 import {
-    Button,
     Col,
     Container,
     Form,
     Row
 } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import style from './style.module.scss';
-import { setTestNumber } from '../../redux/testSlice';
+import {
+    selectorColsCount,
+    selectorRowsCount,
+    setColsCount,
+    setRowsCount
+} from '../../redux/settingsSlice';
+import {
+    DEFAULT_COUNT, MAX_COUNT, MIN_COUNT, NAME_COLS_COUNT_FIELD, NAME_ROWS_COUNT_FIELD
+} from './settings/constants';
 
 const Grid = () => {
-    const NAME_ROWS_COUNT_FIELD = 'rowsCountInput';
-    const NAME_COLS_COUNT_FIELD = 'colsCountInput';
-    const DEFAULT_COUNT = 21;
-    const MIN_COUNT = 5;
-    const MAX_COUNT = 100;
-
-    const [rowsCount, setRowsCount] = useState(DEFAULT_COUNT);
-    const [colsCount, setColsCount] = useState(DEFAULT_COUNT);
+    const rowsCount = useSelector(selectorRowsCount);
+    const colsCount = useSelector(selectorColsCount);
     const rows = useMemo(() => [...Array(Number(rowsCount)).keys()], [rowsCount]);
     const cols = useMemo(() => [...Array(Number(colsCount)).keys()], [colsCount]);
 
@@ -27,14 +28,11 @@ const Grid = () => {
     const handleChangeCount = (event) => {
         const { value, id } = event.target;
         if (id === NAME_ROWS_COUNT_FIELD) {
-            setRowsCount(value);
+            dispatch(setRowsCount(Number(value)));
         }
         if (id === NAME_COLS_COUNT_FIELD) {
-            setColsCount(value);
+            dispatch(setColsCount(Number(value)));
         }
-    };
-    const some = () => {
-        dispatch(setTestNumber(123));
     };
     return (
         <Container className='mt-5 mx-2'>
@@ -67,7 +65,6 @@ const Grid = () => {
                                 defaultValue={DEFAULT_COUNT}
                             />
                         </Form.Group>
-                        <Button variant="primary" onClick={() => some()}>Go!</Button>
                     </Form>
                 </Col>
                 <Col xs={8}>
