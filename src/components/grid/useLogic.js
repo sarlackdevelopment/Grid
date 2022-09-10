@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
     selectorColsCount, selectorRowsCount, setColsCount, setRowsCount
 } from '../../redux/settingsSlice';
@@ -9,7 +9,7 @@ export const useLogic = () => {
     const dispatch = useDispatch();
     const rowsCount = useSelector(selectorRowsCount);
     const colsCount = useSelector(selectorColsCount);
-    const handleChangeCount = (event) => {
+    const handleChangeCount = useCallback((event) => {
         const { value, id } = event.target;
         if (id === NAME_ROWS_COUNT_FIELD) {
             dispatch(setRowsCount(Number(value)));
@@ -17,7 +17,7 @@ export const useLogic = () => {
         if (id === NAME_COLS_COUNT_FIELD) {
             dispatch(setColsCount(Number(value)));
         }
-    };
+    }, [dispatch]);
     const rows = useMemo(() => [...Array(Number(rowsCount)).keys()], [rowsCount]);
     const cols = useMemo(() => [...Array(Number(colsCount)).keys()], [colsCount]);
     return {

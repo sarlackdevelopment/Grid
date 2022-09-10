@@ -5,7 +5,7 @@ import { useLogic } from '../useLogic';
 
 const Field = () => {
     const { cols, rows } = useLogic();
-    return <>
+    return <div className="overflow-scroll border">
         {cols.map((rowItem) => <div
             className='d-flex justify-content-center'
             key={rowItem + rowItem.toString()}
@@ -20,7 +20,7 @@ const Field = () => {
                 })} />
             </div>)}
         </div>)}
-    </>;
+    </div>;
 };
 
 export default Field;

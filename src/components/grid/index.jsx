@@ -2,16 +2,20 @@ import React from 'react';
 import {
     Col,
     Container,
-    Row
+    Row, Stack
 } from 'react-bootstrap';
 import Settings from './Settings';
 import Field from './Field';
+import Engine from './Engine';
 
 const Grid = () => (
-    <Container className='mt-5 mx-2'>
+    <Container fluid className='mt-5 mx-2'>
         <Row>
             <Col xs={4}>
-                <Settings />
+                <Stack className="border p-2" direction="vertical" gap={3}>
+                    <Settings />
+                    <Engine />
+                </Stack>
             </Col>
             <Col xs={8}>
                 <Field />
