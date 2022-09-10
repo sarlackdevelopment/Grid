@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { DEFAULT_COUNT } from '../components/grid/settings/constants';
+import { DEFAULT_COUNT } from '../components/grid/Settings/constants';
 
 export const settingsSlice = createSlice({
     name: 'settings',
