@@ -1,24 +1,29 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Stack } from 'react-bootstrap';
 import { useLogic } from './useLogic';
 import ColorPicker from '../ColorPicker';
+import Dashboard from '../Dashboard';
 
 const ModalEditor = () => {
-    const { isEditorShown, closeEditor } = useLogic();
+    const { isEditorShown, closeEditor, saveChanges } = useLogic();
     return (
         <Modal show={isEditorShown} onHide={closeEditor}>
             <Modal.Header closeButton>
                 <Modal.Title>Editor</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <ColorPicker />
+                <Stack className='justify-content-center' direction='horizontal' gap={3}>
+                    <Dashboard />
+                    <div className="vr" />
+                    <ColorPicker />
+                </Stack>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={closeEditor}>
-                        Close
+                    Close
                 </Button>
-                <Button variant="primary" onClick={closeEditor}>
-                        Save Changes
+                <Button variant="primary" onClick={() => saveChanges({})}>
+                    Save Changes
                 </Button>
             </Modal.Footer>
         </Modal>

@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { settingsSlice } from './settingsSlice';
-import { modalEditorSlice } from './modalEditorSlice';
+import { engineSlice } from './engineSlice';
 
 const reducer = {
     settings: settingsSlice.reducer,
-    modalEditor: modalEditorSlice.reducer
+    engine: engineSlice.reducer
 };
 
 export const store = configureStore({

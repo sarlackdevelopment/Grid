@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { Button, Stack } from 'react-bootstrap';
-import './style.module.scss';
+import { Button } from 'react-bootstrap';
+import cn from 'classnames';
+import { useLogic } from './useLogic';
+import { LIST_OF_COLORS } from '../constants';
+import style from './style.module.scss';
 
 const ColorPicker = () => {
-    const [color, setColor] = useState('#b32aa9');
-    return <Stack direction='horizontal' gap={3}>
-        <div className='border'>
-            <HexColorPicker color={color} onChange={setColor} />
+    const { figureColor, setColor } = useLogic();
+    return <div>
+        <HexColorPicker color={figureColor} onChange={setColor}/>
 
-            <div className="value" style={{ borderLeftColor: color }}>
-                Current color is {color}
-            </div>
-
-            <div className='d-flex flex-column'>
-                <Button className='my-1' variant='primary' onClick={() => setColor('#c6ad23')}>Gold</Button>
-                <Button className='my-1' variant='primary' onClick={() => setColor('#556b2f')}>Green</Button>
-                <Button className='my-1' variant='primary' onClick={() => setColor('#207bd7')}>Blue</Button>
-            </div>
+        <div className={cn(style.value, 'd-flex justify-content-center')} style={{ borderLeftColor: figureColor }}>
+            Current color is {figureColor}
         </div>
-    </Stack>;
+
+        <div className='d-flex flex-column'>
+            {LIST_OF_COLORS.map(({ name, HEX }) => (
+                <Button
+                    key={name}
+                    className='my-1'
+                    variant='primary'
+                    onClick={() => setColor(HEX)}>
+                    {name}
+                </Button>
+            ))}
+        </div>
+    </div>;
 };
 
 export default ColorPicker;
