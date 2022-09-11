@@ -5,8 +5,14 @@ import {
     setYCoordinate as setYCoordinateWrap,
     setWidth as setWidthWrap,
     setHeight as setHeightWrap,
-    clearCache as clearCacheWrap, selectorXCoordinate, selectorYCoordinate, selectorWidth, selectorHeight
+    clearCache as clearCacheWrap,
+    selectorWidth,
+    selectorHeight,
+    selectorFigures,
+    selectorXCoordinate,
+    selectorYCoordinate
 } from '../../../../redux/engineSlice';
+import { selectorRowsCount } from '../../../../redux/settingsSlice';
 
 export const useLogic = () => {
     const dispatch = useDispatch();
@@ -19,15 +25,35 @@ export const useLogic = () => {
     const yCoordinate = useSelector(selectorYCoordinate);
     const width = useSelector(selectorWidth);
     const height = useSelector(selectorHeight);
+    const rowsCount = useSelector(selectorRowsCount);
+    const figures = useSelector(selectorFigures);
+    const skipCoordinates = () => {
+        dispatch(setXCoordinate(1));
+        dispatch(setYCoordinate(1));
+    };
+    const calculatePosition = () => {
+        if (figures.length === 0) {
+            skipCoordinates();
+        } else {
+            // 0. Скипаем координаты если поменялась размерность
+            // 1. Ищем первую строку с хотя бы одной незаполненной ячейкой.
+            // 2. Считаем от этой ячейки вправо width раз, до тех пор, пока позволяет ширина основного поля
+            // 3. Если новая фигура не помещается, то повторяем пункт 1 со следующей строкой.
+            // for (let i = 0; i <= figures.length - 1; i++) {
+            //     const figure = figures[i];
+            // }
+        }
+    };
     return {
-        setXCoordinate,
-        setYCoordinate,
         setWidth,
         setHeight,
         clearCache,
         xCoordinate,
         yCoordinate,
         width,
-        height
+        height,
+        rowsCount,
+        calculatePosition,
+        skipCoordinates
     };
 };
