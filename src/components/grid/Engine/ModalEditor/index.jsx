@@ -5,7 +5,15 @@ import ColorPicker from '../ColorPicker';
 import Dashboard from '../Dashboard';
 
 const ModalEditor = () => {
-    const { isEditorShown, closeEditor, saveChanges } = useLogic();
+    const {
+        isEditorShown,
+        closeEditor,
+        saveChanges,
+        xCoordinate,
+        yCoordinate,
+        width,
+        height
+    } = useLogic();
     return (
         <Modal show={isEditorShown} onHide={closeEditor}>
             <Modal.Header closeButton>
@@ -22,7 +30,11 @@ const ModalEditor = () => {
                 <Button variant="secondary" onClick={closeEditor}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => saveChanges({})}>
+                <Button
+                    disabled={xCoordinate === 0 || yCoordinate === 0 || width === 0 || height === 0}
+                    variant="primary"
+                    onClick={saveChanges}
+                >
                     Save Changes
                 </Button>
             </Modal.Footer>

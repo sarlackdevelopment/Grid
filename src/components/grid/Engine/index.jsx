@@ -7,30 +7,35 @@ import { useLogic } from './useLogic';
 
 const Engine = () => {
     const {
-        openEditor, addFigure, indicatorRef, figures
+        addFigure, indicatorRef, figures
     } = useLogic();
     return (<>
         <ModalEditor />
         <Button variant='outline-primary' onClick={addFigure}>Add figure</Button>
-        { figures.map((item) => <Stack key={item.id} direction="horizontal" gap={3}>
+        { figures.map(({
+            xCoordinate, yCoordinate, width, height
+        }, index) => <Stack key={index + index.toString()} direction="horizontal" gap={3}>
             <div className='d-flex'>
                 <span className='border px-2'>X: </span>
-                <span className='border px-3 fw-bold'>8</span>
+                <span className='border px-3 fw-bold'>{xCoordinate}</span>
             </div>
             <div className='d-flex'>
                 <span className='border px-2'>Y: </span>
-                <span className='border px-3 fw-bold'>8</span>
+                <span className='border px-3 fw-bold'>{yCoordinate}</span>
             </div>
             <div className='d-flex'>
                 <span className='border px-2'>H: </span>
-                <span className='border px-3 fw-bold'>8</span>
+                <span className='border px-3 fw-bold'>{height}</span>
             </div>
             <div className='d-flex'>
                 <span className='border px-2'>W: </span>
-                <span className='border px-3 fw-bold'>8</span>
+                <span className='border px-3 fw-bold'>{width}</span>
             </div>
-            <div ref={indicatorRef} className={cn('border', style.indicator)} />
-            <Button variant='outline-primary' onClick={openEditor}>Edit</Button>
+            <div
+                data-key={index + index.toString()}
+                ref={indicatorRef}
+                className={cn('border', style.indicator)}
+            />
         </Stack>) }
     </>);
 };

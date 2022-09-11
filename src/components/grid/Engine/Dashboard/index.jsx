@@ -4,7 +4,14 @@ import { useLogic } from './useLogic';
 
 const Dashboard = () => {
     const {
-        setXCoordinate, setYCoordinate, setWidth, setHeight
+        setXCoordinate,
+        setYCoordinate,
+        setWidth,
+        setHeight,
+        xCoordinate,
+        yCoordinate,
+        width,
+        height
     } = useLogic();
     return <Form>
         <Form.Group className="mb-3">
@@ -14,6 +21,8 @@ const Dashboard = () => {
                 type="number"
                 min={0}
                 onChange={(e) => setXCoordinate(Number(e.target.value))}
+                defaultValue={xCoordinate}
+                isInvalid={xCoordinate <= 0}
             />
         </Form.Group>
         <Form.Group className="mb-3">
@@ -23,6 +32,8 @@ const Dashboard = () => {
                 type="number"
                 min={0}
                 onChange={(e) => setYCoordinate(Number(e.target.value))}
+                defaultValue={yCoordinate}
+                isInvalid={yCoordinate <= 0}
             />
         </Form.Group>
         <Form.Group className="mb-3">
@@ -32,6 +43,8 @@ const Dashboard = () => {
                 type="number"
                 min={0}
                 onChange={(e) => setWidth(Number(e.target.value))}
+                defaultValue={width}
+                isInvalid={width <= 0}
             />
         </Form.Group>
         <Form.Group className="mb-3">
@@ -41,6 +54,8 @@ const Dashboard = () => {
                 type="number"
                 min={0}
                 onChange={(e) => setHeight(Number(e.target.value))}
+                defaultValue={height}
+                isInvalid={height <= 0}
             />
         </Form.Group>
     </Form>;
