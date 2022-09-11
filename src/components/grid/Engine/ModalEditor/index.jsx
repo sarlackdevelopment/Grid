@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button, Stack } from 'react-bootstrap';
 import { useLogic } from './useLogic';
+import { useLogic as useLogicSettings } from '../../useLogic';
 import ColorPicker from '../ColorPicker';
 import Dashboard from '../Dashboard';
 
@@ -14,6 +15,7 @@ const ModalEditor = () => {
         width,
         height
     } = useLogic();
+    const { colsCount } = useLogicSettings();
     return (
         <Modal show={isEditorShown} onHide={closeEditor}>
             <Modal.Header closeButton>
@@ -31,7 +33,13 @@ const ModalEditor = () => {
                     Close
                 </Button>
                 <Button
-                    disabled={xCoordinate === 0 || yCoordinate === 0 || width === 0 || height === 0}
+                    disabled={
+                        xCoordinate === 0
+                        || yCoordinate === 0
+                        || width === 0
+                        || width > colsCount
+                        || height === 0
+                    }
                     variant="primary"
                     onClick={saveChanges}
                 >

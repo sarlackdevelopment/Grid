@@ -6,7 +6,7 @@ import { fieldSlice } from './fieldSlice';
 const reducer = {
     settings: settingsSlice.reducer,
     engine: engineSlice.reducer,
-    fieldSlice: fieldSlice.reducer
+    field: fieldSlice.reducer
 };
 
 export const store = configureStore({

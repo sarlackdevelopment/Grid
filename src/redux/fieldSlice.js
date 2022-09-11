@@ -10,6 +10,6 @@ export const fieldSlice = createSlice({
     }
 });
 
-export const selectorField = (state) => state.field;
+export const selectorField = (state) => state.field.field;
 
 export const { setField } = fieldSlice.actions;

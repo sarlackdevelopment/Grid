@@ -12,7 +12,8 @@ import {
     selectorXCoordinate,
     selectorYCoordinate
 } from '../../../../redux/engineSlice';
-import { selectorRowsCount } from '../../../../redux/settingsSlice';
+import { selectorRowsCount, setColsCount as setColsCountWrap } from '../../../../redux/settingsSlice';
+import { selectorField } from '../../../../redux/fieldSlice';
 
 export const useLogic = () => {
     const dispatch = useDispatch();
@@ -27,21 +28,108 @@ export const useLogic = () => {
     const height = useSelector(selectorHeight);
     const rowsCount = useSelector(selectorRowsCount);
     const figures = useSelector(selectorFigures);
+    const field = useSelector(selectorField);
     const skipCoordinates = () => {
-        dispatch(setXCoordinate(1));
-        dispatch(setYCoordinate(1));
+        dispatch(setXCoordinate(0));
+        dispatch(setYCoordinate(0));
     };
+    const setColsCount = useCallback((value) => dispatch(setColsCountWrap(value)), [dispatch]);
+
+    const star = () => {
+        // for (let i = 0; i <= field.length - 1; i++) {
+        //     const row = field[i];
+        //     for (let j = 0; j <= row.length - 1; j++) {
+        //         if (row[j] === 0) {
+        //             if (width > row.length - j - 1) {
+        //                 break;
+        //             } else {
+        //                 setXCoordinate(j + 1);
+        //                 setYCoordinate(i + 1);
+        //                 return;
+        //             }
+        //         }
+        //     }
+        // }
+
+        // const sizeOfSpaceHorizontal = (row, startIndex) => {
+        //     let size = 1;
+        //     for (let i = startIndex; i <= row.length - 1; i++) {
+        //         if (row[i] === 1) {
+        //             return size;
+        //         }
+        //         size++;
+        //     }
+        //     return size;
+        // };
+        // for (let i = 0; i <= field.length - 1; i++) {
+        //     const row = field[i];
+        //     for (let j = 0; j <= row.length - 1; j++) {
+        //         if (row[j] === 0) {
+        //             if (width > sizeOfSpaceHorizontal(row, j) - 1) {
+        //                 break;
+        //             } else {
+        //                 setXCoordinate(j + 1);
+        //                 setYCoordinate(i + 1);
+        //                 return;
+        //             }
+        //         }
+        //     }
+        // }
+
+        const sizeOfSpaceHorizontal = (row, startIndex) => {
+            let size = 1;
+            for (let i = startIndex; i <= row.length - 1; i++) {
+                if (row[i] === 1) {
+                    return size;
+                }
+                size++;
+            }
+            return size;
+        };
+        const sizeOfSpaceVertical = (startIndex, indexCol) => {
+            let size = 1;
+            for (let i = startIndex; i <= field.length - 1; i++) {
+                if (field[i][indexCol] === 1) {
+                    return { size, resizeVertical: false };
+                }
+                size++;
+            }
+            return { size, resizeVertical: true };
+        };
+        for (let i = 0; i <= field.length - 1; i++) {
+            const row = field[i];
+            for (let j = 0; j <= row.length - 1; j++) {
+                if (row[j] === 0) {
+                    if (width > sizeOfSpaceHorizontal(row, j) - 1) {
+                        break;
+                    } else {
+                        const { size, resizeVertical } = sizeOfSpaceVertical(i, j);
+                        if (height > size - 1) {
+                            if (!resizeVertical) {
+                                break;
+                            } else {
+                                setColsCount(rowsCount + height);
+                                setXCoordinate(j + 1);
+                                setYCoordinate(i + 1);
+                                return;
+                            }
+                        } else {
+                            setXCoordinate(j + 1);
+                            setYCoordinate(i + 1);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
     const calculatePosition = () => {
         if (figures.length === 0) {
-            skipCoordinates();
+            dispatch(setXCoordinate(1));
+            dispatch(setYCoordinate(1));
         } else {
-            // 0. Скипаем координаты если поменялась размерность
-            // 1. Ищем первую строку с хотя бы одной незаполненной ячейкой.
-            // 2. Считаем от этой ячейки вправо width раз, до тех пор, пока позволяет ширина основного поля
-            // 3. Если новая фигура не помещается, то повторяем пункт 1 со следующей строкой.
-            // for (let i = 0; i <= figures.length - 1; i++) {
-            //     const figure = figures[i];
-            // }
+            star();
         }
     };
     return {
