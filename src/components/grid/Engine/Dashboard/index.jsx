@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useLogic } from './useLogic';
 
 const Dashboard = () => {
@@ -11,7 +11,8 @@ const Dashboard = () => {
         xCoordinate,
         yCoordinate,
         width,
-        height
+        height,
+        randomParameters
     } = useLogic();
     return <Form>
         <Form.Group className="mb-3">
@@ -58,6 +59,10 @@ const Dashboard = () => {
                 isInvalid={height <= 0}
             />
         </Form.Group>
+        <div className="d-flex flex-column">
+            <Button className='mb-1' variant="outline-primary" onClick={randomParameters}>Random parameters</Button>
+            <Button variant="outline-primary">Calculate position</Button>
+        </div>
     </Form>;
 };
 

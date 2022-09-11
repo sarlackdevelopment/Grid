@@ -90,6 +90,13 @@ export const engineSlice = createSlice({
                     color: DEFAULT_COLOR
                 }
             }
+        }),
+        clearFigures: (state) => ({
+            ...state,
+            settings: {
+                ...state.settings,
+                figures: []
+            }
         })
     }
 });
@@ -110,5 +117,6 @@ export const {
     setYCoordinate,
     setWidth,
     setHeight,
-    clearCache
+    clearCache,
+    clearFigures
 } = engineSlice.actions;
