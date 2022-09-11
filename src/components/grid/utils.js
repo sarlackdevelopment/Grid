@@ -36,3 +36,47 @@ export const prepareDigitField = (refField) => {
     }
     return field;
 };
+
+export const placeAlgorithm = (field, width, height) => {
+    const sizeOfSpaceHorizontal = (row, startIndex) => {
+        let size = 1;
+        for (let i = startIndex; i <= row.length - 1; i++) {
+            if (row[i] === 1) {
+                return size;
+            }
+            size++;
+        }
+        return size;
+    };
+    const sizeOfSpaceVertical = (startIndex, indexCol) => {
+        let size = 1;
+        for (let i = startIndex; i <= field.length - 1; i++) {
+            if (field[i][indexCol] === 1) {
+                return { size, resizeVertical: false };
+            }
+            size++;
+        }
+        return { size, resizeVertical: true };
+    };
+    for (let i = 0; i <= field.length - 1; i++) {
+        const row = field[i];
+        for (let j = 0; j <= row.length - 1; j++) {
+            if (row[j] === 0) {
+                if (width > sizeOfSpaceHorizontal(row, j) - 1) {
+                    break;
+                } else {
+                    const { size, resizeVertical } = sizeOfSpaceVertical(i, j);
+                    if (height > size - 1) {
+                        if (!resizeVertical) {
+                            break;
+                        } else {
+                            return { newXCoordinate: j + 1, newYCoordinate: i + 1, resizeVertical: true };
+                        }
+                    } else {
+                        return { newXCoordinate: j + 1, newYCoordinate: i + 1, resizeVertical: false };
+                    }
+                }
+            }
+        }
+    }
+};

@@ -5,11 +5,9 @@ import { store } from './redux/store';
 
 function App() {
     return (
-        <div>
-            <Provider store={store} >
-                <Grid />
-            </Provider>
-        </div>
+        <Provider store={store} >
+            <Grid />
+        </Provider>
     );
 }
 

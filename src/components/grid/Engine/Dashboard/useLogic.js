@@ -14,6 +14,7 @@ import {
 } from '../../../../redux/engineSlice';
 import { selectorRowsCount, setColsCount as setColsCountWrap } from '../../../../redux/settingsSlice';
 import { selectorField } from '../../../../redux/fieldSlice';
+import { placeAlgorithm } from '../../utils';
 
 export const useLogic = () => {
     const dispatch = useDispatch();
@@ -35,101 +36,17 @@ export const useLogic = () => {
     };
     const setColsCount = useCallback((value) => dispatch(setColsCountWrap(value)), [dispatch]);
 
-    const star = () => {
-        // for (let i = 0; i <= field.length - 1; i++) {
-        //     const row = field[i];
-        //     for (let j = 0; j <= row.length - 1; j++) {
-        //         if (row[j] === 0) {
-        //             if (width > row.length - j - 1) {
-        //                 break;
-        //             } else {
-        //                 setXCoordinate(j + 1);
-        //                 setYCoordinate(i + 1);
-        //                 return;
-        //             }
-        //         }
-        //     }
-        // }
-
-        // const sizeOfSpaceHorizontal = (row, startIndex) => {
-        //     let size = 1;
-        //     for (let i = startIndex; i <= row.length - 1; i++) {
-        //         if (row[i] === 1) {
-        //             return size;
-        //         }
-        //         size++;
-        //     }
-        //     return size;
-        // };
-        // for (let i = 0; i <= field.length - 1; i++) {
-        //     const row = field[i];
-        //     for (let j = 0; j <= row.length - 1; j++) {
-        //         if (row[j] === 0) {
-        //             if (width > sizeOfSpaceHorizontal(row, j) - 1) {
-        //                 break;
-        //             } else {
-        //                 setXCoordinate(j + 1);
-        //                 setYCoordinate(i + 1);
-        //                 return;
-        //             }
-        //         }
-        //     }
-        // }
-
-        const sizeOfSpaceHorizontal = (row, startIndex) => {
-            let size = 1;
-            for (let i = startIndex; i <= row.length - 1; i++) {
-                if (row[i] === 1) {
-                    return size;
-                }
-                size++;
-            }
-            return size;
-        };
-        const sizeOfSpaceVertical = (startIndex, indexCol) => {
-            let size = 1;
-            for (let i = startIndex; i <= field.length - 1; i++) {
-                if (field[i][indexCol] === 1) {
-                    return { size, resizeVertical: false };
-                }
-                size++;
-            }
-            return { size, resizeVertical: true };
-        };
-        for (let i = 0; i <= field.length - 1; i++) {
-            const row = field[i];
-            for (let j = 0; j <= row.length - 1; j++) {
-                if (row[j] === 0) {
-                    if (width > sizeOfSpaceHorizontal(row, j) - 1) {
-                        break;
-                    } else {
-                        const { size, resizeVertical } = sizeOfSpaceVertical(i, j);
-                        if (height > size - 1) {
-                            if (!resizeVertical) {
-                                break;
-                            } else {
-                                setColsCount(rowsCount + height);
-                                setXCoordinate(j + 1);
-                                setYCoordinate(i + 1);
-                                return;
-                            }
-                        } else {
-                            setXCoordinate(j + 1);
-                            setYCoordinate(i + 1);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    };
-
     const calculatePosition = () => {
         if (figures.length === 0) {
             dispatch(setXCoordinate(1));
             dispatch(setYCoordinate(1));
         } else {
-            star();
+            const { newXCoordinate, newYCoordinate, resizeVertical } = placeAlgorithm(field, width, height);
+            if (resizeVertical) {
+                setColsCount(rowsCount + height);
+            }
+            setXCoordinate(newXCoordinate);
+            setYCoordinate(newYCoordinate);
         }
     };
     return {
